@@ -1,142 +1,142 @@
 
-# VideoFlux - Video Streaming App
+# VideoFlux - Aplikasi Streaming Video
 
-A streamlined application for downloading videos from Google Drive and streaming them to Facebook/YouTube using FFmpeg without encoding.
+Aplikasi yang efisien untuk mengunduh video dari Google Drive dan melakukan streaming ke Facebook/YouTube menggunakan FFmpeg tanpa encoding.
 
-## Features
+## Fitur
 
-- System resource monitoring (CPU, Memory, Disk usage)
-- Video download from Google Drive
-- Streaming to Facebook/YouTube platforms
-- Scheduling streams with configurable duration or infinite looping
-- Video management (rename, delete)
-- Responsive design for all devices
+- Pemantauan sumber daya sistem (CPU, Memori, Penggunaan Disk)
+- Pengunduhan video dari Google Drive
+- Streaming ke platform Facebook/YouTube
+- Penjadwalan streaming dengan durasi yang dapat dikonfigurasi atau perulangan tak terbatas
+- Manajemen video (ganti nama, hapus)
+- Desain responsif untuk semua perangkat
 
-## Local Development
+## Pengembangan Lokal
 
-**Requirements:**
-- Node.js & npm - [Install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+**Persyaratan:**
+- Node.js & npm - [Instal dengan nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
 
 ```sh
-# Clone the repository
-git clone <YOUR_REPOSITORY_URL>
+# Kloning repositori
+git clone https://github.com/masdonik/videoflux.git
 
-# Navigate to the project directory
+# Pindah ke direktori proyek
 cd videoflux
 
-# Install dependencies
+# Instal dependensi
 npm install
 
-# Start the development server
+# Jalankan server pengembangan
 npm run dev
 ```
 
-## Deployment to Ubuntu VPS
+## Deployment ke VPS Ubuntu
 
-### Prerequisites
+### Prasyarat
 
-- An Ubuntu VPS (18.04 LTS or newer recommended)
-- SSH access to your VPS
-- A domain name (optional but recommended)
+- VPS Ubuntu (direkomendasikan 18.04 LTS atau lebih baru)
+- Akses SSH ke VPS Anda
+- Nama domain (opsional tetapi direkomendasikan)
 
-### Step 1: Initial Server Setup
+### Langkah 1: Pengaturan Server Awal
 
-Connect to your VPS:
+Hubungkan ke VPS Anda:
 
 ```sh
-ssh username@your_server_ip
+ssh username@alamat_ip_server_anda
 ```
 
-Update the system:
+Perbarui sistem:
 
 ```sh
 sudo apt update
 sudo apt upgrade -y
 ```
 
-Install essential packages:
+Instal paket-paket penting:
 
 ```sh
 sudo apt install -y build-essential curl git
 ```
 
-### Step 2: Install Node.js using NVM
+### Langkah 2: Instal Node.js menggunakan NVM
 
 ```sh
-# Install NVM
+# Instal NVM
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
 
-# Load NVM
+# Muat NVM
 export NVM_DIR="$HOME/.nvm"
 [ -s "$HOME/.nvm/nvm.sh" ] && \. "$HOME/.nvm/nvm.sh"
 
-# Install latest LTS version of Node.js
+# Instal versi LTS terbaru Node.js
 nvm install --lts
 
-# Verify installation
+# Verifikasi instalasi
 node --version
 npm --version
 ```
 
-### Step 3: Install FFmpeg
+### Langkah 3: Instal FFmpeg
 
 ```sh
 sudo apt install -y ffmpeg
 
-# Verify installation
+# Verifikasi instalasi
 ffmpeg -version
 ```
 
-### Step 4: Clone and Setup the Application
+### Langkah 4: Kloning dan Persiapan Aplikasi
 
 ```sh
-# Clone the repository
-git clone <YOUR_REPOSITORY_URL> videoflux
+# Kloning repositori
+git clone https://github.com/masdonik/videoflux.git
 cd videoflux
 
-# Install dependencies
+# Instal dependencies
 npm install
 
-# Build the application
+# Build aplikasi
 npm run build
 ```
 
-### Step 5: Install and Configure PM2 (Process Manager)
+### Langkah 5: Instal dan Konfigurasi PM2 (Process Manager)
 
 ```sh
-# Install PM2 globally
+# Instal PM2 secara global
 npm install -g pm2
 
-# Start the application with PM2
+# Jalankan aplikasi dengan PM2
 pm2 start npm --name "videoflux" -- start
 
-# Configure PM2 to start on boot
+# Konfigurasi PM2 untuk memulai saat boot
 pm2 startup
 pm2 save
 ```
 
-### Step 6: Setup Nginx as a Reverse Proxy (Optional but recommended)
+### Langkah 6: Setup Nginx sebagai Reverse Proxy (Opsional tetapi direkomendasikan)
 
 ```sh
-# Install Nginx
+# Instal Nginx
 sudo apt install -y nginx
 
-# Configure firewall to allow Nginx
+# Konfigurasi firewall untuk mengizinkan Nginx
 sudo ufw allow 'Nginx Full'
 
-# Create Nginx configuration
+# Buat konfigurasi Nginx
 sudo nano /etc/nginx/sites-available/videoflux
 ```
 
-Add the following configuration (replace with your domain if available):
+Tambahkan konfigurasi berikut (ganti dengan domain Anda jika tersedia):
 
 ```nginx
 server {
     listen 80;
-    server_name your-domain.com www.your-domain.com;  # Or your server IP if no domain
+    server_name domain-anda.com www.domain-anda.com;  # Atau IP server jika tidak ada domain
 
     location / {
-        proxy_pass http://localhost:3000;  # Adjust if your app runs on a different port
+        proxy_pass http://localhost:3000;  # Sesuaikan jika aplikasi berjalan pada port yang berbeda
         proxy_http_version 1.1;
         proxy_set_header Upgrade $http_upgrade;
         proxy_set_header Connection 'upgrade';
@@ -146,7 +146,7 @@ server {
 }
 ```
 
-Enable the site and restart Nginx:
+Aktifkan situs dan restart Nginx:
 
 ```sh
 sudo ln -s /etc/nginx/sites-available/videoflux /etc/nginx/sites-enabled/
@@ -154,58 +154,58 @@ sudo nginx -t
 sudo systemctl restart nginx
 ```
 
-### Step 7: Setup SSL with Let's Encrypt (Optional but recommended)
+### Langkah 7: Setup SSL dengan Let's Encrypt (Opsional tetapi direkomendasikan)
 
 ```sh
-# Install Certbot
+# Instal Certbot
 sudo apt install -y certbot python3-certbot-nginx
 
-# Obtain SSL certificate
-sudo certbot --nginx -d your-domain.com -d www.your-domain.com
+# Dapatkan sertifikat SSL
+sudo certbot --nginx -d domain-anda.com -d www.domain-anda.com
 
-# Verify auto-renewal
+# Verifikasi auto-renewal
 sudo certbot renew --dry-run
 ```
 
-### Step 8: Configure Environment Variables (if needed)
+### Langkah 8: Konfigurasi Variabel Lingkungan (jika diperlukan)
 
 ```sh
-# Create an environment file
+# Buat file lingkungan
 nano .env
 ```
 
-Add any necessary environment variables to the file.
+Tambahkan variabel lingkungan yang diperlukan ke file.
 
-### Step 9: Verify Installation
+### Langkah 9: Verifikasi Instalasi
 
-Visit your domain or server IP in a web browser to confirm the application is working correctly.
+Kunjungi domain atau IP server Anda di browser web untuk memastikan aplikasi berfungsi dengan benar.
 
-## Usage Instructions
+## Petunjuk Penggunaan
 
-1. **Download Videos**: Navigate to the Download section to fetch videos from Google Drive.
-2. **Stream Videos**: Go to the Live Streaming section to configure and start streaming to Facebook/YouTube.
-3. **Monitor System Resources**: View CPU, memory, and disk usage at the top of the application.
+1. **Unduh Video**: Navigasi ke bagian Unduh untuk mengambil video dari Google Drive.
+2. **Streaming Video**: Buka bagian Live Streaming untuk mengkonfigurasi dan memulai streaming ke Facebook/YouTube.
+3. **Pantau Sumber Daya Sistem**: Lihat penggunaan CPU, memori, dan disk di bagian atas aplikasi.
 
-## Troubleshooting
+## Pemecahan Masalah
 
-- **Streaming Issues**: Verify FFmpeg is installed correctly with `ffmpeg -version`.
-- **Application Not Starting**: Check PM2 logs with `pm2 logs videoflux`.
-- **Permission Errors**: Ensure proper file permissions with `chmod -R 755 /path/to/videoflux`.
+- **Masalah Streaming**: Verifikasi FFmpeg terinstal dengan benar menggunakan `ffmpeg -version`.
+- **Aplikasi Tidak Berjalan**: Periksa log PM2 dengan `pm2 logs videoflux`.
+- **Error Izin**: Pastikan izin file yang benar dengan `chmod -R 755 /path/to/videoflux`.
 
-## Project Structure
+## Struktur Proyek
 
-- `/src` - Application source code
-- `/public` - Static assets
-- `/dist` - Production build files (after running `npm run build`)
+- `/src` - Kode sumber aplikasi
+- `/public` - Aset statis
+- `/dist` - File build produksi (setelah menjalankan `npm run build`)
 
-## Contributing
+## Kontribusi
 
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+1. Fork repositori
+2. Buat branch fitur Anda (`git checkout -b fitur/fitur-keren`)
+3. Commit perubahan Anda (`git commit -m 'Menambahkan beberapa fitur keren'`)
+4. Push ke branch (`git push origin fitur/fitur-keren`)
+5. Buka Pull Request
 
-## License
+## Lisensi
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+Proyek ini dilisensikan di bawah Lisensi MIT - lihat file LICENSE untuk detail.
