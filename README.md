@@ -19,7 +19,7 @@ Aplikasi yang efisien untuk mengunduh video dari Google Drive dan melakukan stre
 
 ```sh
 # Kloning repositori
-git clone https://github.com/masdonik/videoflux.git
+git clone https://github.com/masdonik/videoflux-master.git
 
 # Pindah ke direktori proyek
 cd videoflux
