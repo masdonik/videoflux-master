@@ -2,7 +2,7 @@
 import { useState, useEffect } from 'react';
 import { Progress } from '@/components/ui/progress';
 import { Card, CardContent } from '@/components/ui/card';
-import { Cpu, HardDrive, Ram } from 'lucide-react';
+import { Cpu, HardDrive, Microchip } from 'lucide-react';
 
 // Simulating system stats for the frontend
 // In a real implementation, these would come from server APIs
@@ -57,7 +57,7 @@ const SystemStats = () => {
       
       <Card className="bg-accent border-0">
         <CardContent className="p-4 flex items-center space-x-4">
-          <Ram className="h-10 w-10 text-purple-400" />
+          <Microchip className="h-10 w-10 text-purple-400" />
           <div className="flex-1">
             <div className="flex justify-between mb-1">
               <p className="text-sm font-medium">Memory Usage</p>
